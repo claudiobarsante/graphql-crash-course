@@ -1,5 +1,5 @@
 const Query = {
-	mainCards: () => mainCards,
+	mainCards: (parent, args, { mainCards }) => mainCards,
 	animals: (parent, args, { animals }) => animals, // you can destruct ctx to get {animals} from db.js
 	animal: (parent, args, ctx) => {
 		const animals = ctx.animals;
