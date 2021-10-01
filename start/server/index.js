@@ -19,6 +19,7 @@ const typeDefs = gql`
 		stock: Int!
 		title: String!
 		slug: String!
+		category: Category #Relantionship one Animal has one Category
 	}
 
 	type Category {
@@ -26,6 +27,7 @@ const typeDefs = gql`
 		image: String!
 		category: String!
 		slug: String!
+		animals: [Animal]! #Relantionship one Category has many Animals
 	}
 
 	# special type
@@ -50,6 +52,12 @@ const resolvers = {
 		categories: () => categories,
 		category: (parent, args, ctx) => {
 			return categories.find(category => category.slug === args.slug);
+		},
+	},
+	Category: {
+		animals: (parent, args, ctx) => {
+			const result = animals.filter(animal => animal.category === parent.id);
+			return result;
 		},
 	},
 };
