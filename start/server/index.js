@@ -1,5 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { animals, mainCards } = require('./db');
+const { animals, mainCards, categories } = require('./db');
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
@@ -10,18 +10,31 @@ const typeDefs = gql`
 	}
 
 	type Animal {
-		image: String!
-		title: String!
-		rating: Float!
-		price: String!
+		id: ID!
 		description: [String!]! #you must have an array  and inside the array it must be an array of strings, no nulls are allowed
-		stock: Int!
+		image: String!
 		onSale: Boolean
+		price: String!
+		rating: Float!
+		stock: Int!
+		title: String!
+		slug: String!
 	}
+
+	type Category {
+		id: ID!
+		image: String!
+		category: String!
+		slug: String!
+	}
+
 	# special type
 	type Query {
 		mainCards: [MainCard]
-		animals: [Animal]
+		animals: [Animal!]!
+		animal(slug: String!): Animal
+		categories: [Category!]!
+		category(slug: String!): Category
 	}
 `;
 
@@ -31,6 +44,13 @@ const resolvers = {
 	Query: {
 		mainCards: () => mainCards,
 		animals: () => animals,
+		animal: (parent, args, ctx) => {
+			return animals.find(animal => animal.slug === args.slug);
+		},
+		categories: () => categories,
+		category: (parent, args, ctx) => {
+			return categories.find(category => category.slug === args.slug);
+		},
 	},
 };
 
