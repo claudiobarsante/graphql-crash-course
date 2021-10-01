@@ -37,6 +37,22 @@ const typeDefs = gql`
 		categories: [Category!]!
 		category(slug: String!): Category
 	}
+
+	# special type
+	type Mutation {
+		addAnimal(
+			description: [String!]! #you must have an array  and inside the array it must be an array of strings, no nulls are allowed
+			image: String!
+			onSale: Boolean
+			price: String!
+			rating: Float!
+			stock: Int!
+			title: String!
+			slug: String!
+			category: String!
+		): Animal
+		removeAnimal(id: ID!): Boolean!
+	}
 `;
 
 module.exports = typeDefs;
