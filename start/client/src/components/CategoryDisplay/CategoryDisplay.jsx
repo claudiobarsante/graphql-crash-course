@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './CategoryDisplay.css'
 import { Container } from 'react-bootstrap'
 import animals from '../../assets/images'
